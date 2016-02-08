@@ -538,6 +538,73 @@ class apache::params inherits ::apache::version {
     $passenger_ruby               = '/usr/bin/ruby'
     $passenger_default_ruby       = undef
     $wsgi_socket_prefix           = undef
+  } elsif $::osfamily == 'Archlinux' {
+    $user                = 'http'
+    $group               = 'http'
+    $root_group          = 'wheel'
+    $apache_name         = 'apache'
+    $service_name        = 'httpd'
+    $httpd_dir           = '/etc/httpd'
+    $server_root         = '/srv/http'
+    $conf_dir            = "${httpd_dir}/conf"
+    # $confd_dir        = "${httpd_dir}/conf.d"
+    $confd_dir           = undef
+    # $mod_dir          = "${httpd_dir}/modules.d"
+    $mod_dir             = undef
+    $mod_enable_dir      = undef
+    # $vhost_dir        = "${httpd_dir}/vhosts.d"
+    $vhost_dir           = "${httpd_dir}/extra"
+    $vhost_enable_dir    = undef
+    $conf_file           = 'httpd.conf'
+    $ports_file          = "${conf_dir}/ports.conf"
+    $logroot             = '/var/log/httpd'
+    $logroot_mode        = undef
+    $lib_path            = '/usr/lib/httpd/modules'
+    $mpm_module          = 'prefork'
+
+    $dev_packages     = undef
+    $default_ssl_cert = '/etc/ssl/apache2/server.crt'
+    $default_ssl_key  = '/etc/ssl/apache2/server.key'
+    $ssl_certs_dir    = '/etc/ssl/apache2'
+    $passenger_root   = '/usr'
+    $passenger_ruby   = '/usr/bin/ruby'
+    $passenger_conf_file = 'passenger.conf'
+    $passenger_conf_package_file = undef
+    $passenger_default_ruby = undef
+    $suphp_addhandler = 'x-httpd-php'
+    $suphp_engine     = 'off'
+    $suphp_configpath = '/etc/php5/apache2'
+    $mod_packages     = {
+      # NOTE: I list here only modules that are not included in www-servers/apache
+      'auth_kerb'       => 'www-apache/mod_auth_kerb',
+      'authnz_external' => 'www-apache/mod_authnz_external',
+      'fcgid'           => 'www-apache/mod_fcgid',
+      'passenger'       => 'www-apache/passenger',
+      'perl'            => 'www-apache/mod_perl',
+      'php5'            => 'dev-lang/php',
+      'proxy_html'      => 'www-apache/mod_proxy_html',
+      'proxy_fcgi'      => 'www-apache/mod_proxy_fcgi',
+      'python'          => 'www-apache/mod_python',
+      'wsgi'            => 'www-apache/mod_wsgi',
+      'dav_svn'         => 'dev-vcs/subversion',
+      'xsendfile'       => 'www-apache/mod_xsendfile',
+      'rpaf'            => 'www-apache/mod_rpaf',
+      'xml2enc'         => 'www-apache/mod_xml2enc',
+    }
+    $mod_libs         = {
+      'php5' => 'libphp5.so',
+    }
+    $conf_template        = 'apache/httpd.conf.erb'
+    $keepalive            = 'Off'
+    $keepalive_timeout    = 15
+    $max_keepalive_requests = 100
+    $fastcgi_lib_path     = undef # TODO: revisit
+    $mime_support_package = 'app-misc/mime-types'
+    $mime_types_config    = '/etc/mime.types'
+    $wsgi_socket_prefix   = undef
+    $docroot              = '/var/www/localhost/htdocs'
+    $alias_icons_path     = '/usr/share/apache2/icons'
+    $error_documents_path = '/usr/share/apache2/error'
 
   } else {
     fail("Class['apache::params']: Unsupported osfamily: ${::osfamily}")

@@ -268,7 +268,8 @@ class apache (
         $error_log            = 'httpd-error.log'
         $scriptalias          = '/usr/local/www/apache24/cgi-bin'
         $access_log_file      = 'httpd-access.log'
-      } 'gentoo': {
+      }
+      'gentoo': {
         $error_log            = 'error.log'
         $error_documents_path = '/usr/share/apache2/error'
         $scriptalias          = '/var/www/localhost/cgi-bin'
@@ -304,6 +305,11 @@ class apache (
         $error_log            = 'error.log'
         $scriptalias          = '/usr/lib/cgi-bin'
         $access_log_file      = 'access.log'
+      }
+      'Archlinux': {
+        $error_log            = 'error_log'
+        $scriptalias          = '/srv/http/cgi-bin'
+        $access_log_file      = 'access_log'
       }
       default: {
         fail("Unsupported osfamily ${::osfamily}")
